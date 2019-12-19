@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -46,9 +47,18 @@ func success(data string) []byte {
 }
 
 func main() {
+
+	port, ok := os.LookupEnv("PORT")
+
+	if !ok {
+		port = "8080"
+	}
+
+	log.Printf("Starting server on port %s\n", port)
+
 	http.HandleFunc("/token", GetToken)
 	http.HandleFunc("/push", PushData)
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func GetToken(w http.ResponseWriter, r *http.Request) {
