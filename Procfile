@@ -1,1 +1,1 @@
-web: push-data-app
+web: bin/push-data-app
